@@ -14,12 +14,14 @@
 	let loading = true;
 
 	async function loadTeams() {
-		// loading = true;
-		const { data, error } = await supabase.from('leaderboard').select('name, points');
-		if (error) console.log('Error Fetching Teams:', error.message);
-		if (data.length) leaderboard = data;
-		loading = false;
-	}
+    loading = true;
+    const { data, error } = await supabase.from('leaderboard').select('name, points');
+    if (error) console.log('Error Fetching Teams:', error.message);
+    if (data.length) {
+        leaderboard = data.sort((a, b) => a.points - b.points);
+    }
+    loading = false;
+}
 
 	async function loadIdeas() {
 		loading = true;
