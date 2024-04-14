@@ -15,7 +15,7 @@
 
 	async function loadTeams() {
 		// loading = true;
-		const { data, error } = await supabase.from('leaderboard').select('name, points').order('points', { ascending: false });
+		const { data, error } = await supabase.from('leaderboard').select('name, points').order('points', { ascending: true });
 		if (error) console.log('Error Fetching Teams:', error.message);
 		if (data.length) leaderboard = data;
 		loading = false;
