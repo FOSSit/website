@@ -12,12 +12,13 @@
 	// REMEMBER TO CACHE JSON
 	let teams = true;
 	let loading = true;
-
+	
 	async function loadTeams() {
 		// loading = true;
 		const { data, error } = await supabase.from('leaderboard').select('name, points');
 		if (error) console.log('Error Fetching Teams:', error.message);
 		if (data.length) leaderboard = data;
+		sortleaderboard()
 		loading = false;
 	}
 
@@ -26,9 +27,11 @@
 		const { data, error } = await supabase.from('ideas').select('title, votes, url');
 		if (error) console.log('Error Fetching Ideas:', error.message);
 		if (data.length) leaderboard = data;
+		sortleaderboard()
 		loading = false;
 	}
-
+	function sortLeaderboard() {
+		leaderboard.sort((a, b) => a.points - b.points);
 	onMount(async () => {
 		loadTeams();
 		resize();
