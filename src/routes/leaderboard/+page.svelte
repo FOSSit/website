@@ -81,9 +81,9 @@
 							<h4>{leaderboard[i].name}</h4>
 							<div
 								class="podium flex aspect-square h-full max-h-32 flex-col justify-center rounded-[35px] max-md:before:!m-0 md:w-full md:max-w-32"
-								id="podium{i + 1 + ''}"
+								id="podium{i - 1 + ''}"
 							>
-								<h4 class="text-5xl">{i + 1}</h4>
+								<h4 class="text-5xl">{i - 1}</h4>
 							</div>
 						</div>
 					</Glass>
