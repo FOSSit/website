@@ -60,6 +60,7 @@
 			loadTeams();
 		}
 	}
+	leaderboard.sort()
 </script>
 
 <svelte:window on:resize={resize} />
