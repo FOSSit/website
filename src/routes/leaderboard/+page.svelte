@@ -14,10 +14,13 @@
 	let loading = true;
 
 	async function loadTeams() {
-		// loading = true;
+		loading = true;
 		const { data, error } = await supabase.from('leaderboard').select('name, points');
 		if (error) console.log('Error Fetching Teams:', error.message);
-		if (data.length) leaderboard = data;
+		if (data.length) {
+			leaderboard = data;
+			sortLeaderboard();
+		}
 		loading = false;
 	}
 
@@ -35,23 +38,12 @@
 	});
 
 	let arr = [1, 0, 2];
-	let leaderboard: any = [
-		{
-			name: '',
-			points: 0
-		},
-		{
-			name: '',
-			points: 0
-		},
-		{
-			name: '',
-			points: 0
-		}
-	];
+	let leaderboard: any = [];
+
 	function resize() {
 		arr = innerWidth > 768 ? [1, 0, 2] : [0, 1, 2];
 	}
+
 	async function toggle(e: Event) {
 		teams = e.target.getAttribute('data-create') == 'false';
 		if (!teams) {
@@ -59,6 +51,10 @@
 		} else {
 			loadTeams();
 		}
+	}
+
+	function sortLeaderboard() {
+		leaderboard.sort((a, b) => b.points - a.points);
 	}
 </script>
 
@@ -76,7 +72,7 @@
 				{#each arr as i}
 					<Glass class="!px-6 !pb-5 !pt-10 {i == 0 ? 'md:-translate-y-6' : ''}">
 						<div
-							class="flex h-full w-full flex-row-reverse items-center justify-between space-x-4 text-center text-foreground md:flex-col md:space-x-0 md:space-y-4"
+							class="text-foreground flex h-full w-full flex-row-reverse items-center justify-between space-x-4 text-center md:flex-col md:space-x-0 md:space-y-4"
 						>
 							<h4>{leaderboard[i].name}</h4>
 							<div
@@ -152,24 +148,24 @@
 				<div
 					class="mb-2 flex flex-row justify-center space-x-4 border-b-2 border-solid border-zinc-400 px-2 py-4 text-center"
 				>
-					<p class="flex-1 text-foreground">Rank</p>
+					<p class="text-foreground flex-1">Rank</p>
 					{#if teams}
-						<p class="flex-[4] text-foreground">Team Name</p>
-						<p class="flex-1 text-foreground">Points</p>
+						<p class="text-foreground flex-[4]">Team Name</p>
+						<p class="text-foreground flex-1">Points</p>
 					{:else}
-						<p class="flex-[4] text-foreground">Idea</p>
-						<p class="flex-1 text-foreground">Votes</p>
+						<p class="text-foreground flex-[4]">Idea</p>
+						<p class="text-foreground flex-1">Votes</p>
 					{/if}
 				</div>
 				{#each leaderboard as data, i}
 					<div class="flex flex-row justify-center space-x-4 bg-opacity-5 px-2 text-center">
-						<p class="flex-1 py-2 text-foreground">{i + 1}</p>
+						<p class="text-foreground flex-1 py-2">{i + 1}</p>
 						{#if teams}
-							<p class="flex-[4] py-2 text-foreground">{data.name}</p>
-							<p class="flex-1 py-2 text-foreground">{data.points}</p>
+							<p class="text-foreground flex-[4] py-2">{data.name}</p>
+							<p class="text-foreground flex-1 py-2">{data.points}</p>
 						{:else}
-							<a href={data.url} class="flex-[4] py-2 text-foreground">{data.title}</a>
-							<p class="flex-1 py-2 text-foreground">{data.votes}</p>
+							<a href={data.url} class="text-foreground flex-[4] py-2">{data.title}</a>
+							<p class="text-foreground flex-1 py-2">{data.votes}</p>
 						{/if}
 					</div>
 				{/each}
@@ -180,9 +176,9 @@
 
 <style lang="postcss">
 	button {
-		@apply rounded-2xl border-[1px] border-foreground bg-background bg-opacity-5 px-12 py-3 text-center text-foreground;
+		@apply border-foreground bg-background text-foreground rounded-2xl border-[1px] bg-opacity-5 px-12 py-3 text-center;
 	}
 	button[data-primary] {
-		@apply rounded-2xl border-[1px] border-foreground bg-foreground px-12 py-3 text-center text-background;
+		@apply border-foreground bg-foreground text-background rounded-2xl border-[1px] px-12 py-3 text-center;
 	}
 </style>
