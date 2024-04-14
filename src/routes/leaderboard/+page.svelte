@@ -12,6 +12,10 @@
 	// REMEMBER TO CACHE JSON
 	let teams = true;
 	let loading = true;
+	
+	function sort(){
+		leaderboard.sort((a, b) => a.points - b.points);
+	}
 
 	async function loadTeams() {
 		// loading = true;
@@ -19,6 +23,9 @@
 		if (error) console.log('Error Fetching Teams:', error.message);
 		if (data.length) leaderboard = data;
 		loading = false;
+		sort();
+
+
 	}
 
 	async function loadIdeas() {
@@ -27,7 +34,10 @@
 		if (error) console.log('Error Fetching Ideas:', error.message);
 		if (data.length) leaderboard = data;
 		loading = false;
+		sort();
+
 	}
+	
 
 	onMount(async () => {
 		loadTeams();
